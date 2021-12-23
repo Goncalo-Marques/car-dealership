@@ -16,7 +16,7 @@ CREATE TABLE "car" (
   "id_brand" int NOT NULL,
   "id_client" int,
   "name" varchar NOT NULL,
-  "new" boolean NOT NULL DEFAULT 1,
+  "new" boolean NOT NULL DEFAULT true,
   "doors" int NOT NULL DEFAULT 3,
   "cubic_capacity" int NOT NULL,
   "power" int NOT NULL
