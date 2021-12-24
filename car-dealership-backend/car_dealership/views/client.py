@@ -1,40 +1,42 @@
-from car_dealership.models import Client
-from car_dealership.serializers.client import clientSerializer
+from car_dealership import models
+from car_dealership.serializers.client import ClientSerializer
 from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
-class ClientList(APIView):
+class Clients(APIView):
  
     def get(self, request, format=None):
-        clients = Client.objects.all()
-        serializer = clientSerializer(clients, many=True)
+        clients = models.Client.objects.all()
+        serializer = ClientSerializer(clients, many=True)
         return Response(serializer.data)
 
+class Client(APIView):
+
     def post(self, request, format=None):
-        serializer = clientSerializer(data=request.data)
+        serializer = ClientSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class ClientDetail(APIView):
+class ClientByID(APIView):
 
     def get_object(self, pk):
         try:
-            return Client.objects.get(pk=pk)
-        except Client.DoesNotExist:
+            return models.Client.objects.get(pk=pk)
+        except models.Client.DoesNotExist:
             raise Http404
 
     def get(self, request, pk, format=None):
         client = self.get_object(pk)
-        serializer = clientSerializer(client)
+        serializer = ClientSerializer(client)
         return Response(serializer.data)
 
     def put(self, request, pk, format=None):
         client = self.get_object(pk)
-        serializer = clientSerializer(client, data=request.data)
+        serializer = ClientSerializer(client, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -44,4 +46,3 @@ class ClientDetail(APIView):
         client = self.get_object(pk)
         client.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-
