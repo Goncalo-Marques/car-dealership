@@ -1,40 +1,34 @@
-from car_dealership.models import Brand
-from car_dealership.serializers.brand import brandSerializer
+from car_dealership import models
+from car_dealership.serializers.brand import BrandSerializer
 from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
-
-class BrandList(APIView):
+class Brands(APIView):
     def get(self, request, format=None):
-        brands = Brand.objects.all()
-        serializer = brandSerializer(brands, many=True)
+        brands = models.Brand.objects.all()
+        serializer = BrandSerializer(brands, many=True)
         return Response(serializer.data)
 
+class Brand(APIView):
     def post(self, request, format=None):
-        serializer = brandSerializer(data=request.data)
+        serializer = BrandSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-class BrandDetail(APIView):
+class BrandByName(APIView):
     def get_object(self, pk):
         try:
-            return Brand.objects.get(pk=pk)
-        except Brand.DoesNotExist:
+            return models.Brand.objects.get(pk=pk)
+        except models.Brand.DoesNotExist:
             raise Http404
-
-    def get(self, request, pk, format=None):
-        brand = self.get_object(pk)
-        serializer = brandSerializer(brand)
-        return Response(serializer.data)
 
     def put(self, request, pk, format=None):
         brand = self.get_object(pk)
-        serializer = brandSerializer(brand, data=request.data)
+        serializer = BrandSerializer(brand, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
