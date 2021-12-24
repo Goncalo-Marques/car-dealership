@@ -5,11 +5,6 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
-class Brands(APIView):
-    def get(self, request, format=None):
-        brands = models.Brand.objects.all()
-        serializer = BrandSerializer(brands, many=True)
-        return Response(serializer.data)
 
 class Brand(APIView):
     def post(self, request, format=None):
@@ -19,6 +14,7 @@ class Brand(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 class BrandByName(APIView):
     def get_object(self, pk):
         try:
@@ -26,15 +22,14 @@ class BrandByName(APIView):
         except models.Brand.DoesNotExist:
             raise Http404
 
-    def put(self, request, pk, format=None):
-        brand = self.get_object(pk)
-        serializer = BrandSerializer(brand, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
     def delete(self, request, pk, format=None):
         brand = self.get_object(pk)
         brand.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class Brands(APIView):
+    def get(self, request, format=None):
+        brands = models.Brand.objects.all()
+        serializer = BrandSerializer(brands, many=True)
+        return Response(serializer.data)
