@@ -21,7 +21,9 @@ class Client(models.Model):
 
 
 class Car(models.Model):
-    brand = models.ForeignKey(Brand, on_delete=models.CASCADE, default=None, null=False)
+    brand = models.ForeignKey(
+        Brand, on_delete=models.CASCADE, db_column="brand", default=None, null=False
+    )
     id_client = models.ForeignKey(
         Client,
         on_delete=models.SET_DEFAULT,
