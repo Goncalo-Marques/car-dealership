@@ -7,6 +7,7 @@ urlpatterns = [
     path('client/<int:pk>/', ClientByID.as_view()),
     path('clients/', Clients.as_view()),
 
-    path('brands/', BrandList.as_view()),
-    path('brand/<int:pk>/', BrandDetail.as_view()),
+    path('brand/', Brand.as_view()),
+    path('brand/<pk>', BrandByName.as_view()),
+    path('brands/', Brands.as_view()),
 ]
