@@ -5,15 +5,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
-class Clients(APIView):
- 
-    def get(self, request, format=None):
-        clients = models.Client.objects.all()
-        serializer = ClientSerializer(clients, many=True)
-        return Response(serializer.data)
 
 class Client(APIView):
-
     def post(self, request, format=None):
         serializer = ClientSerializer(data=request.data)
         if serializer.is_valid():
@@ -21,8 +14,8 @@ class Client(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class ClientByID(APIView):
 
+class ClientByID(APIView):
     def get_object(self, pk):
         try:
             return models.Client.objects.get(pk=pk)
@@ -46,3 +39,10 @@ class ClientByID(APIView):
         client = self.get_object(pk)
         client.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class Clients(APIView):
+    def get(self, request, format=None):
+        clients = models.Client.objects.all()
+        serializer = ClientSerializer(clients, many=True)
+        return Response(serializer.data)
