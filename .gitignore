@@ -130,4 +130,3 @@ dmypy.json
 
 # vscode settings
 .vscode
-!.vscode/launch.json
