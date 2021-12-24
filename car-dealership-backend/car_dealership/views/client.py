@@ -6,6 +6,13 @@ from rest_framework.response import Response
 from rest_framework import status
 
 
+def get_object(pk):
+    try:
+        return models.Client.objects.get(pk=pk)
+    except models.Client.DoesNotExist:
+        raise Http404
+
+
 class Client(APIView):
     def post(self, request, format=None):
         serializer = ClientSerializer(data=request.data)
@@ -16,19 +23,13 @@ class Client(APIView):
 
 
 class ClientByID(APIView):
-    def get_object(self, pk):
-        try:
-            return models.Client.objects.get(pk=pk)
-        except models.Client.DoesNotExist:
-            raise Http404
-
     def get(self, request, pk, format=None):
-        client = self.get_object(pk)
+        client = get_object(pk)
         serializer = ClientSerializer(client)
         return Response(serializer.data)
 
     def put(self, request, pk, format=None):
-        client = self.get_object(pk)
+        client = get_object(pk)
         serializer = ClientSerializer(client, data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -36,7 +37,7 @@ class ClientByID(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):
-        client = self.get_object(pk)
+        client = get_object(pk)
         client.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
