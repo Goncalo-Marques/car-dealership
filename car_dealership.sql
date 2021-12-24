@@ -7,13 +7,12 @@ CREATE TABLE "client" (
 );
 
 CREATE TABLE "brand" (
-  "id" SERIAL PRIMARY KEY,
-  "name" varchar NOT NULL
+  "name" varchar PRIMARY KEY
 );
 
 CREATE TABLE "car" (
   "id" SERIAL PRIMARY KEY,
-  "id_brand" int NOT NULL,
+  "brand" varchar NOT NULL,
   "id_client" int DEFAULT null,
   "name" varchar NOT NULL,
   "new" boolean NOT NULL DEFAULT true,
@@ -22,6 +21,6 @@ CREATE TABLE "car" (
   "power" int NOT NULL
 );
 
-ALTER TABLE "car" ADD FOREIGN KEY ("id_brand") REFERENCES "brand" ("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "car" ADD FOREIGN KEY ("brand") REFERENCES "brand" ("name") ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE "car" ADD FOREIGN KEY ("id_client") REFERENCES "client" ("id") ON DELETE SET DEFAULT ON UPDATE NO ACTION;

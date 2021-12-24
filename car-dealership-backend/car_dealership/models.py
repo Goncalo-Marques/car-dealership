@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Brand(models.Model):
-    name = models.CharField(max_length=20, null=False)
+    name = models.CharField(primary_key=True, max_length=20)
 
     class Meta:
         managed = True
@@ -21,9 +21,7 @@ class Client(models.Model):
 
 
 class Car(models.Model):
-    id_brand = models.ForeignKey(
-        Brand, on_delete=models.CASCADE, db_column="id_brand", null=False
-    )
+    brand = models.ForeignKey(Brand, on_delete=models.CASCADE, default=None, null=False)
     id_client = models.ForeignKey(
         Client,
         on_delete=models.SET_DEFAULT,
