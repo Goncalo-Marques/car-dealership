@@ -27,7 +27,7 @@ class BrandByName(APIView):
         brand.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-# view to fetch all brands
+# view to fetch all existing brands
 class Brands(APIView):
     def get(self, request, format=None):
         brands = models.Brand.objects.all()

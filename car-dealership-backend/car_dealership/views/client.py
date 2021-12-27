@@ -41,7 +41,7 @@ class ClientByID(APIView):
         client.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-# view to fetch all clients
+# view to fetch all existing clients
 class Clients(APIView):
     def get(self, request, format=None):
         clients = models.Client.objects.all()
