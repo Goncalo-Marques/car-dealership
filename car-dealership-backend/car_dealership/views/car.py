@@ -1,4 +1,3 @@
-from django.http.response import HttpResponseBadRequest
 from car_dealership import models
 from car_dealership.serializers.car import CarSerializer
 from car_dealership.views import client
