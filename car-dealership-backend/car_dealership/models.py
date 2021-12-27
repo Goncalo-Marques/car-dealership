@@ -1,6 +1,6 @@
 from django.db import models
 
-
+# brand model
 class Brand(models.Model):
     name = models.CharField(primary_key=True, max_length=20)
 
@@ -9,6 +9,7 @@ class Brand(models.Model):
         db_table = "brand"
 
 
+# client model
 class Client(models.Model):
     full_name = models.CharField(max_length=50, null=False)
     birthdate = models.DateField(null=False)
@@ -20,6 +21,7 @@ class Client(models.Model):
         db_table = "client"
 
 
+# car model
 class Car(models.Model):
     brand = models.ForeignKey(
         Brand, on_delete=models.CASCADE, db_column="brand", default=None, null=False
