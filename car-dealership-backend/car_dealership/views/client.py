@@ -5,14 +5,14 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
-
+# returns the client object that contains the primary key equal to 'pk' or 404 if it doesn't exist
 def get_object(pk):
     try:
         return models.Client.objects.get(pk=pk)
     except models.Client.DoesNotExist:
         raise Http404
 
-
+# view to create a new client
 class Client(APIView):
     def post(self, request, format=None):
         serializer = ClientSerializer(data=request.data)
@@ -21,7 +21,7 @@ class Client(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
+# view to fetch, update and delete a client by ID
 class ClientByID(APIView):
     def get(self, request, pk, format=None):
         client = get_object(pk)
@@ -41,7 +41,7 @@ class ClientByID(APIView):
         client.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-
+# view to fetch all clients
 class Clients(APIView):
     def get(self, request, format=None):
         clients = models.Client.objects.all()
