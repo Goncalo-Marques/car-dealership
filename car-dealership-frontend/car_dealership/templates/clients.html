@@ -1,9 +1,29 @@
 <!-- base.html -->
 {% extends "base.html" %} {% block content %}
-<h2>List of all existing clients</h2>
-<ul>
+<h2 class="center-text color1">List of all existing clients</h2>
+
+<div class="accordion" id="accordion">
+
   {% for client in clients %}
-  <li>{{ client.full_name }} - {{ client.phone_number }} - {{ client.address }}</li>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="heading{{ client.id }}">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+        data-bs-target="#collapse{{ client.id }}" aria-expanded="false" aria-controls="collapse{{ client.id }}">
+        {{ client.full_name }}
+      </button>
+    </h2>
+    <div id="collapse{{ client.id }}" class="accordion-collapse collapse collapse"
+      aria-labelledby="heading{{ client.id }}" data-bs-parent="#accordion">
+      <div class="accordion-body">
+        <strong>ID:</strong> {{ client.id }} <br>
+        <strong>Birthdate:</strong> {{ client.birthdate }} <br>
+        <strong>Phone Number:</strong> {{ client.phone_number }} <br>
+        <strong>Address:</strong> {{ client.address }}
+      </div>
+    </div>
+  </div>
   {% endfor %}
-</ul>
+
+</div>
+
 {% endblock content %}
