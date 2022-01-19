@@ -16,6 +16,9 @@ class ClientAdmin(admin.ModelAdmin):
     list_display = ("full_name", "view_cars_link")
     search_fields = ("full_name",)
 
+    def has_add_permission(self, request, obj=None):
+        return False
+
     def has_change_permission(self, request, obj=None):
         return False
 
