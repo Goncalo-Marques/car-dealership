@@ -4,7 +4,7 @@ from django.utils.http import urlencode
 from django.utils.html import format_html
 from . import models
 
-
+# custom admin page for Brand
 @admin.register(models.Brand)
 class BrandAdmin(admin.ModelAdmin):
     list_display = ("name",)
@@ -28,12 +28,15 @@ class ClientAdmin(admin.ModelAdmin):
             + "?"
             + urlencode({"id_client": f"{obj.id}"})
         )
+
+        # number of cars owned by the client
         count = obj.car_set.count()
         return format_html('<a href="{}">{} Car(s)</a>', url, count)
 
     view_cars_link.short_description = "cars"
 
 
+# custom admin page for Car
 @admin.register(models.Car)
 class CarAdmin(admin.ModelAdmin):
     list_display = ("name", "brand", "view_client_link")
@@ -45,6 +48,8 @@ class CarAdmin(admin.ModelAdmin):
             return None
 
         url = reverse("admin:car_dealership_client_change", args=[obj.id_client.id])
+
+        # name of the client that owns the car
         clientName = obj.id_client
         return format_html('<a href="{}">{}</a>', url, clientName)
 
