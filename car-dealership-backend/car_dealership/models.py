@@ -8,6 +8,9 @@ class Brand(models.Model):
         managed = True
         db_table = "brand"
 
+    def __str__(self):
+        return f"{self.name}"
+
 
 # client model
 class Client(models.Model):
@@ -19,6 +22,9 @@ class Client(models.Model):
     class Meta:
         managed = True
         db_table = "client"
+
+    def __str__(self):
+        return f"{self.full_name}"
 
 
 # car model
@@ -35,6 +41,7 @@ class Car(models.Model):
         null=True,
     )
     name = models.CharField(max_length=50, null=False)
+    image_url = models.TextField(null=False)
     new = models.BooleanField(default=True, null=False)
     doors = models.IntegerField(default=3, null=False)
     cubic_capacity = models.IntegerField(null=False)
@@ -43,3 +50,6 @@ class Car(models.Model):
     class Meta:
         managed = True
         db_table = "car"
+
+    def __str__(self):
+        return f"{self.name}"
