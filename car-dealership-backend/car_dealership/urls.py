@@ -1,9 +1,12 @@
 from django.urls import path
+from car_dealership.views.index import *
 from car_dealership.views.client import *
 from car_dealership.views.brand import *
 from car_dealership.views.car import *
 
 urlpatterns = [
+    # index
+    path("", index, name="index"),
     # client
     path("client/", Client.as_view()),
     path("client/<int:pk>/", ClientByID.as_view()),
