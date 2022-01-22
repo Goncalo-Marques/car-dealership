@@ -14,5 +14,5 @@ urlpatterns = [
     # car
     path("newCars/", views.cars, name="newCars"),
     path("usedCars/", views.cars, name="usedCars"),
-    path("myCars/", views.cars, name="myCars"),
+    path("myCars/", views.myCars, name="myCars"),
 ]

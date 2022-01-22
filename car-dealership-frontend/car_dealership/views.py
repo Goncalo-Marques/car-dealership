@@ -45,7 +45,23 @@ def account(request):
 
     # transform the response to json object
     client = response.json()
-    return render(request, "account.html", {"client": client})
+    context = {
+        "client": client,
+    }
+    return render(request, "account.html", context)
+
+
+def myCars(request):
+    # get cars by client
+    response = requests.get(urljoin(BASE_URL, "carsByClient/1/"))
+
+    # transform the response to json object
+    cars = response.json()
+    context = {
+        "client": None,
+        "cars": cars,
+    }
+    return render(request, "myCars.html", context)
 
 
 def clients(request):
