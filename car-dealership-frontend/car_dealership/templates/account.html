@@ -1,0 +1,26 @@
+{% extends "base.html" %} {% block content %}
+<br>
+<h2 class="center-text color1">Account - {{client.full_name}} </h2>
+<hr><br>
+
+<form>
+    <div class="mb-3">
+        <label for="inputFullName" class="form-label">Full Name</label>
+        <input type="text" class="form-control" id="inputFullName" aria-describedby="FullName"
+            value="{{client.full_name}}">
+    </div>
+    <div class="mb-3">
+        <label for="inputBirthDate" class="form-label">BirthDate</label>
+        <input type="date" class="form-control" id="inputBirthDate" value="{{client.birthdate}}">
+    </div>
+    <div class="mb-3">
+        <label for="inputPhoneNumber" class="form-label">Phone Number</label>
+        <input type="tel" class="form-control" id="inputPhoneNumber" pattern="[9]{1}[0-9]{8}" maxlength="9" value="{{client.phone_number}}" >
+    </div>
+    <div class="mb-3">
+        <label for="inputAddress" class="form-label">Address</label>
+        <input type="text" class="form-control" id="inputPhinputAddressoneNumber" value="{{client.address}}">
+    </div>
+    <button type="submit" class="btn btn-primary">Update</button>
+</form>
+{% endblock content %}

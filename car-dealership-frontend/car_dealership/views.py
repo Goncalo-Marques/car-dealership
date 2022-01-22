@@ -4,10 +4,15 @@ from django.shortcuts import render
 
 BASE_URL = "http://127.0.0.1:8000/"
 
-
 def index(request):
     return render(request, "index.html", None)
 
+def account(request):
+    # get client
+    response = requests.get(urljoin(BASE_URL, "client/1/"))
+    # transform the response to json object
+    client = response.json()
+    return render(request, "account.html", {"client": client})
 
 def clients(request):
     # get the list of clients
