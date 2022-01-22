@@ -1,0 +1,52 @@
+/* 
+1- 0D1B2A
+2- 1B263B
+3- 415A77
+4- 778DA9
+5- E0E1DD
+*/
+html,
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #E0E1DD;
+}
+
+.center-text {
+    text-align: center;
+}
+
+.color1 {
+    color: #0D1B2A;
+}
+
+.color2 {
+    color: #1B263B;
+}
+
+.color3 {
+    color: #415A77;
+}
+
+.color4 {
+    color: #778DA9;
+}
+
+.color5 {
+    color: #E0E1DD;
+}
+
+.header {
+    margin: auto;
+    margin-top: 25px;
+    margin-bottom: 15px;
+    background-color: #0D1B2A;
+    border-radius: 30px;
+    padding: 15px;
+    width: 90%;
+}
+
+.content {
+    margin: auto;
+    width: 85%;
+}
