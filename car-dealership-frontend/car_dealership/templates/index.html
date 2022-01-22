@@ -1,6 +1,97 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h1>Car Dealership API</h1>
+<!-- Title -->
+
+<br>
+<h2 class="center-text color1">Cars</h2>
+<hr>
+<br>
+
+<!-- Carousel -->
+
+<div class="carousel-featured">
+    <div id="carousel" class="carousel slide" data-bs-ride="carousel">
+        <!-- Carousel indicators -->
+        <div class="carousel-indicators">
+            {% for f in featured %}
+            {% if forloop.first %}
+            <button type="button" data-bs-target="#carousel" data-bs-slide-to="{{ forloop.counter0 }}" class="active"
+                aria-current="true"></button>
+            {% else %}
+            <button type="button" data-bs-target="#carousel" data-bs-slide-to="{{ forloop.counter0 }}"></button>
+            {% endif %}
+            {% endfor %}
+        </div>
+
+        <!-- Carousel inner -->
+        <div class="carousel-inner">
+            {% for f in featured %}
+            {% if forloop.first %}
+            <div class="carousel-item active">
+                <img src="{{ f.image_url }}" class="d-block w-100" alt="{{ f.name }}">
+                <div class="carousel-caption d-none d-md-block">
+                    {% if client %}
+                    <a href="#" class="text-decoration-none color5" data-bs-toggle="modal"
+                        data-bs-target="#modal-{{f.id}}">
+                        <h5 class="color5">{{ f.name }}</h5>
+                    </a>
+                    {% else %}
+                    <h5>{{ f.name }}</h5>
+                    {% endif %}
+                </div>
+            </div>
+            {% else %}
+            <div class="carousel-item">
+                <img src="{{ f.image_url }}" class="d-block w-100" alt="{{ f.name }}">
+                <div class="carousel-caption d-none d-md-block">
+                    {% if client %}
+                    <a href="#" class="text-decoration-none color5" data-bs-toggle="modal"
+                        data-bs-target="#modal-{{f.id}}">
+                        <h5 class="color5">{{ f.name }}</h5>
+                    </a>
+                    {% else %}
+                    <h5>{{ f.name }}</h5>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Modal -->
+            {% if client %}
+            <div class="modal fade" id="modal-{{f.id}}" tabindex="-1" aria-labelledby="modalLabel-{{f.id}}"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalLabel-{{f.id}}">{{f.name}}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Are you sure you want to buy this car?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Yes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+
+        <!-- Carousel controls -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</div>
 
 {% endblock content %}
