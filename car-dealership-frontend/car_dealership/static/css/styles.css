@@ -1,10 +1,12 @@
 /* 
+Colors: 
 1- 0D1B2A
 2- 1B263B
 3- 415A77
 4- 778DA9
 5- E0E1DD
 */
+
 html,
 body {
     margin: 0;
@@ -36,6 +38,14 @@ body {
     color: #E0E1DD;
 }
 
+.hoverColor5:hover{
+    color: #E0E1DD;
+}
+
+.hoverPointer:hover{
+    cursor: pointer;
+}
+
 .header {
     margin: auto;
     margin-top: 25px;
@@ -51,7 +61,7 @@ body {
     width: 85%;
 }
 
-.carousel-featured {
+.carousel-cars {
     max-width: 55%; 
     margin-left: auto; 
     margin-right: auto;

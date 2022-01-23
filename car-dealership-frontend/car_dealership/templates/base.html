@@ -18,14 +18,23 @@
 </head>
 
 <body>
+
+  <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
+
+      <!-- Brand -->
       <a class="navbar-brand" href="{% url 'index' %}">Car Dealership</a>
+
+      <!-- Mobile toggler -->
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
+
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        <!-- Navigations -->
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
             <a class="nav-link" aria-current="page" href="{% url 'newCars' %}">New Cars</a>
@@ -34,26 +43,45 @@
             <a class="nav-link" aria-current="page" href="{% url 'usedCars' %}">Used Cars</a>
           </li>
         </ul>
+
         <div class="d-flex">
+
+          <!-- Account menu -->
           <div class="btn-group">
+
+            <!-- Button -->
             <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
               {% if client %}
+
+              <!-- Logged in -->
               {{ client.full_name }}
+
               {% else %}
+
+              <!-- Not logged in -->
               Your Account
+
               {% endif %}
             </button>
+
+            <!-- Options -->
             <ul class="dropdown-menu dropdown-menu-end">
               {% if client %}
+
+              <!-- Logged in -->
               <li><a class="dropdown-item" href="{% url 'account' %}">Account</a></li>
               <li><a class="dropdown-item" href="{% url 'myCars' %}">My Cars</a></li>
               <li>
                 <hr class="dropdown-divider">
               </li>
               <li><a class="dropdown-item" href="{% url 'logOut' %}">Log out</a></li>
+
               {% else %}
+
+              <!-- Not logged in -->
               <li><a class="dropdown-item" href="{% url 'logIn' %}">Log in</a></li>
               <li><a class="dropdown-item" href="{% url 'signUp' %}">Sign up</a></li>
+
               {% endif %}
             </ul>
           </div>
@@ -62,6 +90,7 @@
     </div>
   </nav>
 
+  <!-- Content -->
   <div class="content">
     {% block content %} {% endblock content %}
   </div>

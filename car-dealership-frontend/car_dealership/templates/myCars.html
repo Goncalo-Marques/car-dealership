@@ -1,43 +1,25 @@
-{% extends "base.html" %} {% block content %}
-<br>
-<h2 class="center-text color1">My Cars</h2>
-<hr><br>
+{% extends "base.html" %}
+{% block content %}
 
+{% if client %}
+
+<!-- Title -->
+{% include "components/title.html" with title="My Cars" %}
+
+<!-- Cards -->
 <div class="row row-cols-1 row-cols-md-3 g-4">
     {% for car in cars %}
-    <div class="col">
-        <div class="card h-100">
-            <img src="{{car.image_url}}" class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title center-text">{{car.name}}</h5>
-                <table class="w-100">
-                    <tr>
-                        <td><b>Brand</b></td>
-                        <td>{{car.brand}}</td>
-                    </tr>
-                    <tr>
-                        <td><b>New</b></td>
-                        <td>{{car.new}}</td>
-                    </tr>
-                    <tr>
-                        <td><b>Doors</b></td>
-                        <td>{{car.doors}}</td>
-                    </tr>
-                    <tr>
-                        <td><b>Cubic capacity</b></td>
-                        <td>{{car.cubic_capacity}}</td>
-                    </tr>
-                    <tr>
-                        <td><b>Power</b></td>
-                        <td>{{car.power}}</td>
-                    </tr>
-                </table>
-            </div>
-            <div class="card-footer">
-                <a class="text-muted">Sell</a>
-            </div>
-        </div>
-    </div>
+
+    {% include "components/card.html" with client=client car=car sell="true" %}
+
     {% endfor %}
 </div>
+
+{% else %}
+
+<!-- Not logged in message -->
+{% include "components/notLoggedIn.html" %}
+
+{% endif %}
+
 {% endblock content %}

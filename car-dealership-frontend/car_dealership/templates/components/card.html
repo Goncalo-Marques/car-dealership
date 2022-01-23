@@ -1,0 +1,54 @@
+<!-- Card -->
+<div class="col">
+    <div class="card h-100">
+
+        <!-- Image -->
+        <img src="{{car.image_url}}" class="card-img-top" alt="{{car.name}}">
+
+        <!-- Body -->
+        <div class="card-body">
+            <h5 class="card-title center-text">{{car.name}}</h5>
+            <table class="w-100">
+                <tr>
+                    <td><b>Brand</b></td>
+                    <td>{{car.brand}}</td>
+                </tr>
+                <tr>
+                    <td><b>New</b></td>
+                    <td>{{car.new}}</td>
+                </tr>
+                <tr>
+                    <td><b>Doors</b></td>
+                    <td>{{car.doors}}</td>
+                </tr>
+                <tr>
+                    <td><b>Cubic capacity</b></td>
+                    <td>{{car.cubic_capacity}}</td>
+                </tr>
+                <tr>
+                    <td><b>Power</b></td>
+                    <td>{{car.power}}</td>
+                </tr>
+            </table>
+        </div>
+
+        {% if client %}
+
+        <!-- Footer -->
+        <div class="card-footer">
+
+            {% include "components/buttonAction.html" with class="text-muted" car=car sell=sell %}
+
+        </div>
+
+        {% endif %}
+
+    </div>
+</div>
+
+{% if client %}
+
+<!-- Confirmation modal -->
+{% include "components/confirmPurchase.html" with car=car sell=sell %}
+
+{% endif %}

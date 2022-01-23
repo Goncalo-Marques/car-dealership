@@ -1,18 +1,20 @@
 from os import name
 from django.urls import path
-from . import views
+from .views.index import index
+from .views.client import account
+from .views.car import newCars, usedCars, myCars
 
 urlpatterns = [
     # index
-    path("", views.index, name="index"),
+    path("", index, name="index"),
     # client
-    path("account/", views.account, name="account"),
-    path("logIn/", views.account, name="logIn"),
-    path("signUp/", views.account, name="signUp"),
-    path("logOut/", views.account, name="logOut"),
-    path("clients/", views.clients, name="clients"),
+    path("account/", account, name="account"),
+    # TODO: client auth
+    path("logIn/", account, name="logIn"),
+    path("signUp/", account, name="signUp"),
+    path("logOut/", account, name="logOut"),
     # car
-    path("newCars/", views.cars, name="newCars"),
-    path("usedCars/", views.cars, name="usedCars"),
-    path("myCars/", views.myCars, name="myCars"),
+    path("newCars/", newCars, name="newCars"),
+    path("usedCars/", usedCars, name="usedCars"),
+    path("myCars/", myCars, name="myCars"),
 ]
