@@ -1,29 +1,52 @@
 from rest_framework import serializers
 from car_dealership.models import Client
+from django.contrib.auth.hashers import make_password
 
 # client serializer based on its model
 class ClientSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(required=False)
+    password = serializers.CharField(write_only=True, required=False)
+    is_active = serializers.BooleanField(default=True)
+
     class Meta:
         model = Client
         fields = "__all__"
-        extra_kwargs = {"password": {"write_only": True}}
 
     def validate(self, data):
         # validating phone number
-        if data["phone_number"] < 900000000 or data["phone_number"] > 999999999:
+        if "phone_number" in data and (
+            data["phone_number"] < 900000000 or data["phone_number"] > 999999999
+        ):
             raise serializers.ValidationError("Invalid phone number")
+
         return data
 
-    # TODO: encriptar password
-    # TODO: encriptar password
-    # TODO: encriptar password
-    # TODO: encriptar password
-    # TODO: encriptar password
-    # TODO: encriptar password
-    # TODO: encriptar password
-    # TODO: encriptar password
-    # TODO: encriptar password
-    # TODO: encriptar password
-    # TODO: encriptar password
-    # TODO: encriptar password
-    # TODO: encriptar password
+    def create(self, validated_data):
+        if "password" in validated_data:
+            # encrypting the password
+            validated_data["password"] = make_password(validated_data.get("password"))
+
+        return super(ClientSerializer, self).create(validated_data)
+
+    def update(self, instance, validated_data):
+        instance.full_name = validated_data.get("full_name", instance.full_name)
+        instance.birthdate = validated_data.get("birthdate", instance.birthdate)
+        instance.address = validated_data.get("address", instance.address)
+        instance.phone_number = validated_data.get(
+            "phone_number", instance.phone_number
+        )
+
+        # checking if email is not already being used
+        email = validated_data.get("email", instance.email)
+        record = Client.objects.filter(email=email).first()
+        if not record:
+            instance.email = email
+
+        # encrypting the password
+        password = validated_data.get("password", None)
+        if password:
+            instance.set_password(password)
+
+        instance.save()
+
+        return instance

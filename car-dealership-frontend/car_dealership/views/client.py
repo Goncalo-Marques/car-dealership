@@ -7,7 +7,7 @@ from .consts import *
 from car_dealership import models
 
 
-def register(request):
+def signUp(request):
     form = models.ClientForm(request.POST or None)
     if form.is_valid():
         response = requests.post(
@@ -19,13 +19,13 @@ def register(request):
 
         if response.status_code == 201:
             CLIENT = response.json().get("client")
-            print("111111: " + str(CLIENT))
+
             redirect = HttpResponseRedirect(reverse("index"))
             return redirect
         else:
             return render(request, "error.html", response.json())
 
-    return render(request, "register.html")
+    return render(request, "auth/signUp.html")
 
 
 def account(request):

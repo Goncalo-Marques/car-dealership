@@ -28,11 +28,9 @@ def index(request):
         else:
             otherCars.append(car)
 
-    print("123123: " + str(CLIENT))
-
     # TODO: client auth
     context = {
-        "client": CLIENT,
+        "client": None,
         "featured": featuredCars,
         "cars": otherCars,
     }

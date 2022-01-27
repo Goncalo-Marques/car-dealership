@@ -59,7 +59,7 @@ def myCars(request):
 
     # TODO: client auth
     context = {
-        "client": requests.get(urljoin(BASE_URL, "client/1/")).json(),
+        "client": None,
         "cars": cars,
     }
     return render(request, "myCars.html", context)

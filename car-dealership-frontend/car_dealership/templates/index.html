@@ -12,6 +12,8 @@
 <br>
 <br>
 
+{% if cars|length > 0 %}
+
 <!-- Cards -->
 <div class="row row-cols-1 row-cols-md-3 g-4">
     {% for car in cars %}
@@ -20,5 +22,11 @@
 
     {% endfor %}
 </div>
+
+{% else %}
+
+{% include "components/noCars.html" %}
+
+{% endif %}
 
 {% endblock content %}

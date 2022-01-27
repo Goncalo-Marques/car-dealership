@@ -15,6 +15,12 @@ class Register(APIView):
         serializer = ClientSerializer(data=request.data)
 
         if serializer.is_valid():
+            if "password" not in serializer.validated_data:
+                response = {
+                    "error": "Password required for creating account",
+                }
+                return Response(response, status=status.HTTP_400_BAD_REQUEST)
+
             # registers the client
             client = serializer.save()
 
