@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- Title -->
+{% include "components/title.html" with title="Error" %}
+
+{% if error %}
+
+<p class="center-text">{{ error }}</p>
+
+{% endif %}
+
+{% endblock content %}

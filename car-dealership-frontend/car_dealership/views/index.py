@@ -3,6 +3,8 @@ from urllib.parse import urljoin
 from django.shortcuts import render
 from .consts import *
 
+# TODO: renderizar pagina de erro se resposta nao for a esperada
+
 
 def index(request):
     # get the list of cars not sold
@@ -26,9 +28,11 @@ def index(request):
         else:
             otherCars.append(car)
 
+    print("123123: " + str(CLIENT))
+
     # TODO: client auth
     context = {
-        "client": requests.get(urljoin(BASE_URL, "client/1/")).json(),
+        "client": CLIENT,
         "featured": featuredCars,
         "cars": otherCars,
     }

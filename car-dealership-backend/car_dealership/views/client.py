@@ -14,26 +14,6 @@ def get_object(pk):
         raise Http404
 
 
-# checks if the client has any invalid fields
-def is_valid(object):
-    if object["phone_number"] < 900000000 or object["phone_number"] > 999999999:
-        return False
-    return True
-
-
-# view to create a new client
-class Client(APIView):
-    def post(self, request, format=None):
-        serializer = ClientSerializer(data=request.data)
-        if serializer.is_valid():
-            if not is_valid(serializer.validated_data):
-                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
 # view to fetch, update and delete a client by ID
 class ClientByID(APIView):
     def get(self, request, pk, format=None):
@@ -45,12 +25,13 @@ class ClientByID(APIView):
         client = get_object(pk)
         serializer = ClientSerializer(client, data=request.data)
         if serializer.is_valid():
-            if not is_valid(serializer.validated_data):
-                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
             serializer.save()
             return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        response = {
+            "error": "Bad request: " + str(serializer.errors),
+        }
+        return Response(response, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):
         client = get_object(pk)

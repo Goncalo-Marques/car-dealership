@@ -21,7 +21,11 @@ class Car(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        response = {
+            "error": "Bad request: " + str(serializer.errors),
+        }
+        return Response(response, status=status.HTTP_400_BAD_REQUEST)
 
 
 # view to fetch, update and delete a car by ID
@@ -37,7 +41,11 @@ class CarByID(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        response = {
+            "error": "Bad request: " + str(serializer.errors),
+        }
+        return Response(response, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk, format=None):
         car = get_object(pk)
@@ -60,7 +68,10 @@ class CarBuy(APIView):
 
         # check if the car does not already belong to someone else
         if car.id_client != None:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            response = {
+                "error": "Bad request: this car already belongs to someone",
+            }
+            return Response(response, status=status.HTTP_400_BAD_REQUEST)
 
         # updates the owner of the car
         car.id_client = client.get_object(pkClient)
@@ -77,7 +88,10 @@ class CarSell(APIView):
 
         # check if the car really belongs to someone
         if car.id_client == None:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            response = {
+                "error": "Bad request: this car does not belong to anyone",
+            }
+            return Response(response, status=status.HTTP_400_BAD_REQUEST)
 
         # updates the owner and state of the car
         car.id_client = None

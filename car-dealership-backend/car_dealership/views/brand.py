@@ -12,7 +12,12 @@ class Brand(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        response = {
+            "error": "Bad request: " + str(serializer.errors),
+        }
+        return Response(response, status=status.HTTP_400_BAD_REQUEST)
+
 
 # view to fetch and delete a brand by Name
 class BrandByName(APIView):
@@ -26,6 +31,7 @@ class BrandByName(APIView):
         brand = self.get_object(pk)
         brand.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 # view to fetch all existing brands
 class Brands(APIView):
