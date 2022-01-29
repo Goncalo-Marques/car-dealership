@@ -1,10 +1,11 @@
-from operator import truediv
 from car_dealership import models
 from car_dealership.serializers.client import ClientSerializer
 from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.authentication import SessionAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 # returns the client object that contains the primary key equal to 'pk' or 404 if it doesn't exist
 def get_object(pk):
@@ -16,6 +17,9 @@ def get_object(pk):
 
 # view to fetch, update and delete a client by ID
 class ClientByID(APIView):
+    authentication_classes = [SessionAuthentication]
+    permission_classes = [IsAuthenticated]
+
     def get(self, request, pk, format=None):
         client = get_object(pk)
         serializer = ClientSerializer(client)
@@ -41,6 +45,9 @@ class ClientByID(APIView):
 
 # view to fetch all existing clients
 class Clients(APIView):
+    authentication_classes = [SessionAuthentication]
+    permission_classes = [IsAuthenticated]
+
     def get(self, request, format=None):
         clients = models.Client.objects.all()
         serializer = ClientSerializer(clients, many=True)

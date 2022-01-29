@@ -4,9 +4,14 @@ from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.authentication import SessionAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 # view to create a new brand
 class Brand(APIView):
+    authentication_classes = [SessionAuthentication]
+    permission_classes = [IsAuthenticated]
+
     def post(self, request, format=None):
         serializer = BrandSerializer(data=request.data)
         if serializer.is_valid():
@@ -21,6 +26,9 @@ class Brand(APIView):
 
 # view to fetch and delete a brand by Name
 class BrandByName(APIView):
+    authentication_classes = [SessionAuthentication]
+    permission_classes = [IsAuthenticated]
+
     def get_object(self, pk):
         try:
             return models.Brand.objects.get(pk=pk)

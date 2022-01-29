@@ -5,6 +5,8 @@ from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.authentication import SessionAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 # returns the car object that contains the primary key equal to 'pk' or 404 if it doesn't exist
 def get_object(pk):
@@ -16,6 +18,9 @@ def get_object(pk):
 
 # view to create a new car
 class Car(APIView):
+    authentication_classes = [SessionAuthentication]
+    permission_classes = [IsAuthenticated]
+
     def post(self, request, format=None):
         serializer = CarSerializer(data=request.data)
         if serializer.is_valid():
@@ -30,6 +35,9 @@ class Car(APIView):
 
 # view to fetch, update and delete a car by ID
 class CarByID(APIView):
+    authentication_classes = [SessionAuthentication]
+    permission_classes = [IsAuthenticated]
+
     def get(self, request, pk, format=None):
         car = get_object(pk)
         serializer = CarSerializer(car)
@@ -63,6 +71,9 @@ class Cars(APIView):
 
 # view to buy a car
 class CarBuy(APIView):
+    authentication_classes = [SessionAuthentication]
+    permission_classes = [IsAuthenticated]
+
     def get(self, request, pkCar, pkClient, format=None):
         car = get_object(pkCar)
 
@@ -83,6 +94,9 @@ class CarBuy(APIView):
 
 # view to sell a car
 class CarSell(APIView):
+    authentication_classes = [SessionAuthentication]
+    permission_classes = [IsAuthenticated]
+
     def get(self, request, pk, format=None):
         car = get_object(pk)
 
@@ -104,6 +118,9 @@ class CarSell(APIView):
 
 # view to fetch all the cars that belong to a specified client
 class CarsByClient(APIView):
+    authentication_classes = [SessionAuthentication]
+    permission_classes = [IsAuthenticated]
+
     def get(self, request, pkClient, format=None):
         cars = models.Car.objects.filter(id_client=pkClient)
         serializer = CarSerializer(cars, many=True)
