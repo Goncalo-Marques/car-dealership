@@ -11,6 +11,7 @@ class BrandAdmin(admin.ModelAdmin):
     search_fields = ("name",)
 
 
+# custom admin page for Client
 @admin.register(models.Client)
 class ClientAdmin(admin.ModelAdmin):
     list_display = ("full_name", "view_cars_link")
