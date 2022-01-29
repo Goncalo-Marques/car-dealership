@@ -7,6 +7,14 @@ from rest_framework import status
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
+# returns the brand object that contains the primary key equal to 'pk' or 404 if it doesn't exist
+def get_object(pk):
+    try:
+        return models.Brand.objects.get(pk=pk)
+    except models.Brand.DoesNotExist:
+        raise Http404
+
+
 # view to create a new brand
 class Brand(APIView):
     authentication_classes = [SessionAuthentication]
@@ -29,14 +37,8 @@ class BrandByName(APIView):
     authentication_classes = [SessionAuthentication]
     permission_classes = [IsAuthenticated]
 
-    def get_object(self, pk):
-        try:
-            return models.Brand.objects.get(pk=pk)
-        except models.Brand.DoesNotExist:
-            raise Http404
-
     def delete(self, request, pk, format=None):
-        brand = self.get_object(pk)
+        brand = get_object(pk)
         brand.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
