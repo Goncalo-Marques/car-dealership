@@ -6,6 +6,7 @@ MAX_FEATURED_CARS = 5
 
 # urls
 URL_INDEX = "index"
+URL_MY_CARS = "myCars"
 
 # templates
 TEMPLATE_ERROR = "error.html"
