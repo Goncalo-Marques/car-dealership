@@ -28,7 +28,7 @@
                 {% if sell %}
 
                 <a href="{% url 'sellCar' car.id %}">
-                    <button onclick="sellCar()" type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
                         Sell
                     </button>
                 </a>
@@ -36,7 +36,7 @@
                 {% else %}
 
                 <a href="{% url 'buyCar' car.id %}">
-                    <button onclick="buyCar()" type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
                         Buy
                     </button>
                 </a>
