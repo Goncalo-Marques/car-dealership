@@ -77,6 +77,13 @@ class CarBuy(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, pkCar, pkClient, format=None):
+        # validate user authority
+        if request.user.id != pkClient:
+            response = {
+                "error": "Forbidden: user cannot take actions for other users",
+            }
+            return Response(response, status=status.HTTP_403_FORBIDDEN)
+
         car = get_object(pkCar)
 
         # check if the car does not already belong to someone else
@@ -100,6 +107,13 @@ class CarSell(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, pk, format=None):
+        # validate user authority
+        if request.user.id != pk:
+            response = {
+                "error": "Forbidden: user cannot take actions for other users",
+            }
+            return Response(response, status=status.HTTP_403_FORBIDDEN)
+
         car = get_object(pk)
 
         # check if the car really belongs to someone

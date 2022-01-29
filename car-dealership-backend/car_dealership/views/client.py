@@ -26,6 +26,13 @@ class ClientByID(APIView):
         return Response(serializer.data)
 
     def put(self, request, pk, format=None):
+        # validate user authority
+        if request.user.id != pk:
+            response = {
+                "error": "Forbidden: user cannot take actions for other users",
+            }
+            return Response(response, status=status.HTTP_403_FORBIDDEN)
+
         client = get_object(pk)
         serializer = ClientSerializer(client, data=request.data)
         if serializer.is_valid():
