@@ -7,6 +7,32 @@ from django.contrib.auth import authenticate, login, logout
 from car_dealership.serializers.client import ClientSerializer
 
 
+# view for client login
+class Login(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request, format=None):
+        email = request.data.get("email")
+        password = request.data.get("password")
+
+        client = authenticate(request, email=email, password=password)
+
+        if client is not None:
+            # logs the client in
+            login(request, client)
+
+            response = {
+                "success": "Logged successfully",
+                "client": ClientSerializer(client),
+            }
+            return Response(response, status=status.HTTP_200_OK)
+
+        response = {
+            "error": "Bad request",
+        }
+        return Response(response, status=status.HTTP_400_BAD_REQUEST)
+
+
 # view to register the client
 class Register(APIView):
     permission_classes = [AllowAny]
@@ -35,32 +61,6 @@ class Register(APIView):
 
         response = {
             "error": "Bad request: " + str(serializer.errors),
-        }
-        return Response(response, status=status.HTTP_400_BAD_REQUEST)
-
-
-# view for client login
-class Login(APIView):
-    permission_classes = [AllowAny]
-
-    def post(self, request, format=None):
-        email = request.data.get("email")
-        password = request.data.get("password")
-
-        client = authenticate(request, email=email, password=password)
-
-        if client is not None:
-            # logs the client in
-            login(request, client)
-
-            response = {
-                "success": "Logged successfully",
-                "client": ClientSerializer(client),
-            }
-            return Response(response, status=status.HTTP_200_OK)
-
-        response = {
-            "error": "Bad request",
         }
         return Response(response, status=status.HTTP_400_BAD_REQUEST)
 

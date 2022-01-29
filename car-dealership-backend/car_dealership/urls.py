@@ -6,8 +6,8 @@ from car_dealership.views.car import *
 
 urlpatterns = [
     # auth
-    path("auth/register/", Register.as_view()),
     path("auth/login/", Login.as_view()),
+    path("auth/register/", Register.as_view()),
     path("auth/logout/", Logout.as_view()),
     # client
     path("client/<int:pk>/", ClientByID.as_view()),
