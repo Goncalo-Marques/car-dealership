@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .consts import MAX_FEATURED_CARS, TEMPLATE_ERROR, TEMPLATE_INDEX
 from . import helpers
 
-
+# index view
 def index(request):
     # get the list of cars not sold
     response = helpers.get("carsNotSold/", request.COOKIES)

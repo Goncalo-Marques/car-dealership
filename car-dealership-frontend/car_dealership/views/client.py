@@ -11,7 +11,7 @@ from .consts import (
 )
 from car_dealership import models
 
-
+# log in view
 def logIn(request):
     form = models.ClientLoginForm(request.POST or None)
     if form.is_valid():
@@ -29,6 +29,7 @@ def logIn(request):
     return render(request, TEMPLATE_LOG_IN)
 
 
+# sign up view
 def signUp(request):
     form = models.ClientRegisterForm(request.POST or None)
     if form.is_valid():
@@ -46,6 +47,7 @@ def signUp(request):
     return render(request, TEMPLATE_SIGN_UP)
 
 
+# log out view
 def logOut(request):
     response = helpers.post("auth/logout/", request.COOKIES)
     if response.status_code != 200:
@@ -58,6 +60,7 @@ def logOut(request):
     return redirect
 
 
+# client account view
 def account(request):
     client = helpers.get_client_or_none(request)
 

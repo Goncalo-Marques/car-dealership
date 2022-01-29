@@ -10,7 +10,7 @@ from .consts import (
     URL_MY_CARS,
 )
 
-
+# new cars view
 def newCars(request):
     # get the list of cars not sold
     response = helpers.get("carsNotSold/", request.COOKIES)
@@ -35,6 +35,7 @@ def newCars(request):
     return render(request, TEMPLATE_CARS, context)
 
 
+# used cars view
 def usedCars(request):
     # get the list of cars not sold
     response = helpers.get("carsNotSold/", request.COOKIES)
@@ -59,6 +60,7 @@ def usedCars(request):
     return render(request, TEMPLATE_CARS, context)
 
 
+# client cars view
 def myCars(request):
     client = helpers.get_client_or_none(request)
     cars = None
@@ -80,6 +82,7 @@ def myCars(request):
     return render(request, TEMPLATE_MY_CARS, context)
 
 
+# view to buy a car
 def buyCar(request, pkCar):
     client = helpers.get_client_or_none(request)
     clientID = client.get("id", None)
@@ -91,6 +94,7 @@ def buyCar(request, pkCar):
     return HttpResponseRedirect(reverse(URL_INDEX))
 
 
+# view to sell a car
 def sellCar(request, pkCar):
     response = helpers.get(f"sellCar/{pkCar}/", request.COOKIES)
     if response.status_code != 200:
