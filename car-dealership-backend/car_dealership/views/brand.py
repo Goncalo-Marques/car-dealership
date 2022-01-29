@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.authentication import SessionAuthentication
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
 # view to create a new brand
 class Brand(APIView):
@@ -43,6 +43,8 @@ class BrandByName(APIView):
 
 # view to fetch all existing brands
 class Brands(APIView):
+    permission_classes = [AllowAny]
+
     def get(self, request, format=None):
         brands = models.Brand.objects.all()
         serializer = BrandSerializer(brands, many=True)

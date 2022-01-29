@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.authentication import SessionAuthentication
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
 # returns the car object that contains the primary key equal to 'pk' or 404 if it doesn't exist
 def get_object(pk):
@@ -63,6 +63,8 @@ class CarByID(APIView):
 
 # view to fetch all existing cars
 class Cars(APIView):
+    permission_classes = [AllowAny]
+
     def get(self, request, format=None):
         cars = models.Car.objects.all()
         serializer = CarSerializer(cars, many=True)
@@ -129,6 +131,8 @@ class CarsByClient(APIView):
 
 # view to fetch all cars that have not yet been sold
 class CarsNotSold(APIView):
+    permission_classes = [AllowAny]
+
     def get(self, request, format=None):
         cars = models.Car.objects.filter(id_client=None)
         serializer = CarSerializer(cars, many=True)
