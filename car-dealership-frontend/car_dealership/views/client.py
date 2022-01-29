@@ -1,6 +1,5 @@
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from urllib.parse import urljoin
 from django.shortcuts import render
 from . import helpers
 from .consts import (
