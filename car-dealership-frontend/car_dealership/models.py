@@ -1,8 +1,7 @@
-from typing_extensions import Required
 from django.db import models
 from django import forms
 
-
+# client model
 class Client(models.Model):
     email = models.EmailField(null=False)
     password = models.CharField(max_length=128, null=False)
@@ -12,12 +11,14 @@ class Client(models.Model):
     address = models.CharField(max_length=50, null=False)
 
 
+# client registration form
 class ClientRegisterForm(forms.ModelForm):
     class Meta:
         model = Client
         fields = "__all__"
 
 
+# client login form
 class ClientLoginForm(forms.ModelForm):
     full_name = forms.CharField(required=False)
     birthdate = forms.DateField(required=False)
@@ -29,6 +30,7 @@ class ClientLoginForm(forms.ModelForm):
         fields = "__all__"
 
 
+# client details editing form
 class ClientAccountForm(forms.ModelForm):
     email = forms.EmailField(required=False)
     password = forms.CharField(required=False)
