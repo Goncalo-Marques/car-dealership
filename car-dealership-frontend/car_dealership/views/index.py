@@ -1,14 +1,13 @@
-import requests
-from urllib.parse import urljoin
 from django.shortcuts import render
-from .consts import *
-
-# TODO: renderizar pagina de erro se resposta nao for a esperada
+from .consts import MAX_FEATURED_CARS, TEMPLATE_ERROR, TEMPLATE_INDEX
+from . import helpers
 
 
 def index(request):
     # get the list of cars not sold
-    response = requests.get(urljoin(BASE_URL, "carsNotSold/"))
+    response = helpers.get("carsNotSold/", request.COOKIES)
+    if response.status_code != 200:
+        return render(request, TEMPLATE_ERROR, response.json())
 
     # transform the response to json object
     cars = response.json()
@@ -22,16 +21,15 @@ def index(request):
 
     for car in cars:
         # checks if the car belongs to the featured category
-        if car["new"] == True and featuredCount < 5:
+        if car["new"] == True and featuredCount < MAX_FEATURED_CARS:
             featuredCars.append(car)
             featuredCount += 1
         else:
             otherCars.append(car)
 
-    # TODO: client auth
     context = {
-        "client": None,
+        "client": helpers.get_client_or_none(request),
         "featured": featuredCars,
         "cars": otherCars,
     }
-    return render(request, "index.html", context)
+    return render(request, TEMPLATE_INDEX, context)

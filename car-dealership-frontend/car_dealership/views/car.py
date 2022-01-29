@@ -1,12 +1,13 @@
-import requests
-from urllib.parse import urljoin
 from django.shortcuts import render
-from .consts import *
+from .consts import TEMPLATE_CARS, TEMPLATE_ERROR, TEMPLATE_MY_CARS
+from . import helpers
 
 
 def newCars(request):
-    # get the list of cars
-    response = requests.get(urljoin(BASE_URL, "carsNotSold/"))
+    # get the list of cars not sold
+    response = helpers.get("carsNotSold/", request.COOKIES)
+    if response.status_code != 200:
+        return render(request, TEMPLATE_ERROR, response.json())
 
     # transform the response to json object
     tempCars = response.json()
@@ -18,18 +19,19 @@ def newCars(request):
         if car["new"] == True:
             cars.append(car)
 
-    # TODO: client auth
     context = {
         "title": "New Cars",
-        "client": requests.get(urljoin(BASE_URL, "client/1/")).json(),
+        "client": helpers.get_client_or_none(request),
         "cars": cars,
     }
-    return render(request, "cars.html", context)
+    return render(request, TEMPLATE_CARS, context)
 
 
 def usedCars(request):
-    # get the list of cars
-    response = requests.get(urljoin(BASE_URL, "carsNotSold/"))
+    # get the list of cars not sold
+    response = helpers.get("carsNotSold/", request.COOKIES)
+    if response.status_code != 200:
+        return render(request, TEMPLATE_ERROR, response.json())
 
     # transform the response to json object
     tempCars = response.json()
@@ -41,25 +43,30 @@ def usedCars(request):
         if car["new"] == False:
             cars.append(car)
 
-    # TODO: client auth
     context = {
         "title": "Used Cars",
-        "client": requests.get(urljoin(BASE_URL, "client/1/")).json(),
+        "client": helpers.get_client_or_none(request),
         "cars": cars,
     }
-    return render(request, "cars.html", context)
+    return render(request, TEMPLATE_CARS, context)
 
 
 def myCars(request):
-    # get cars by client
-    response = requests.get(urljoin(BASE_URL, "carsByClient/1/"))
+    client = helpers.get_client_or_none(request)
+    cars = None
 
-    # transform the response to json object
-    cars = response.json()
+    if client != None:
+        # get cars by client
+        clientID = client.get("id", None)
+        response = helpers.get(f"carsByClient/{clientID}/", request.COOKIES)
+        if response.status_code != 200:
+            return render(request, TEMPLATE_ERROR, response.json())
 
-    # TODO: client auth
+        # transform the response to json object
+        cars = response.json()
+
     context = {
-        "client": None,
+        "client": client,
         "cars": cars,
     }
-    return render(request, "myCars.html", context)
+    return render(request, TEMPLATE_MY_CARS, context)
