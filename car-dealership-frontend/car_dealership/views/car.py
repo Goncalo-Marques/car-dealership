@@ -1,6 +1,14 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from .consts import TEMPLATE_CARS, TEMPLATE_ERROR, TEMPLATE_MY_CARS
+from django.urls import reverse
 from . import helpers
+from .consts import (
+    TEMPLATE_CARS,
+    TEMPLATE_ERROR,
+    TEMPLATE_MY_CARS,
+    URL_INDEX,
+    URL_MY_CARS,
+)
 
 
 def newCars(request):
@@ -70,3 +78,22 @@ def myCars(request):
         "cars": cars,
     }
     return render(request, TEMPLATE_MY_CARS, context)
+
+
+def buyCar(request, pkCar):
+    client = helpers.get_client_or_none(request)
+    clientID = client.get("id", None)
+
+    response = helpers.get(f"buyCar/{pkCar}/{clientID}/", request.COOKIES)
+    if response.status_code != 200:
+        return render(request, TEMPLATE_ERROR, response.json())
+
+    return HttpResponseRedirect(reverse(URL_INDEX))
+
+
+def sellCar(request, pkCar):
+    response = helpers.get(f"sellCar/{pkCar}/", request.COOKIES)
+    if response.status_code != 200:
+        return render(request, TEMPLATE_ERROR, response.json())
+
+    return HttpResponseRedirect(reverse(URL_MY_CARS))

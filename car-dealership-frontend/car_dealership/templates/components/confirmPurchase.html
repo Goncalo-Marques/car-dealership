@@ -25,17 +25,25 @@
             <!-- Footer -->
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
-                    {% if sell %}
+                {% if sell %}
 
-                    Sell
+                <a href="{% url 'sellCar' car.id %}">
+                    <button onclick="sellCar()" type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                        Sell
+                    </button>
+                </a>
 
-                    {% else %}
+                {% else %}
 
-                    Buy
+                <a href="{% url 'buyCar' car.id %}">
+                    <button onclick="buyCar()" type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                        Buy
+                    </button>
+                </a>
 
-                    {% endif %}
-                </button>
+                {% endif %}
+
+
             </div>
         </div>
     </div>
