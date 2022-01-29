@@ -23,7 +23,7 @@ class Login(APIView):
 
             response = {
                 "success": "Logged successfully",
-                "client": ClientSerializer(client),
+                "client": ClientSerializer(client).data,
             }
             return Response(response, status=status.HTTP_200_OK)
 
