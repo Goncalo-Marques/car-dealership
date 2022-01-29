@@ -33,7 +33,7 @@ class Client(AbstractBaseUser, PermissionsMixin):
     address = models.CharField(max_length=50, null=False)
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["full_name", "birthdate", "phone_number", "address"]
+    REQUIRED_FIELDS = ["full_name", "birthdate", "address"]
 
     objects = CustomUserManager()
 
