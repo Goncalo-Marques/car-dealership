@@ -59,6 +59,7 @@ body {
 .content {
     margin: auto;
     width: 85%;
+    padding-bottom: 50px;
 }
 
 .carousel-cars {
