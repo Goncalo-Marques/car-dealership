@@ -12,7 +12,27 @@ class Client(models.Model):
     address = models.CharField(max_length=50, null=False)
 
 
-class ClientForm(forms.ModelForm):
+class ClientRegisterForm(forms.ModelForm):
+    class Meta:
+        model = Client
+        fields = "__all__"
+
+
+class ClientLoginForm(forms.ModelForm):
+    full_name = forms.CharField(required=False)
+    birthdate = forms.DateField(required=False)
+    phone_number = forms.IntegerField(required=False)
+    address = forms.CharField(required=False)
+
+    class Meta:
+        model = Client
+        fields = "__all__"
+
+
+class ClientAccountForm(forms.ModelForm):
+    email = forms.EmailField(required=False)
+    password = forms.CharField(required=False)
+
     class Meta:
         model = Client
         fields = "__all__"
