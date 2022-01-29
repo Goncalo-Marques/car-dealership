@@ -1,3 +1,6 @@
+# Authors: Gonçalo Marques; Ricardo Vieira
+# Latest change: 29/01/2022
+
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.shortcuts import render

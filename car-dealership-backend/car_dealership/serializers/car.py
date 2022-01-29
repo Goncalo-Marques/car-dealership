@@ -1,3 +1,6 @@
+# Authors: Gonçalo Marques; Ricardo Vieira
+# Latest change: 27/12/2021
+
 from rest_framework import serializers
 from car_dealership.models import Car
 

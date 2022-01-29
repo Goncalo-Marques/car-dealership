@@ -1,3 +1,6 @@
+# Authors: Gonçalo Marques; Ricardo Vieira
+# Latest change: 29/01/2022
+
 """
 Django settings for car_dealership_backend project.
 

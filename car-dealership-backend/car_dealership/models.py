@@ -1,3 +1,6 @@
+# Authors: Gonçalo Marques; Ricardo Vieira
+# Latest change: 29/01/2022
+
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin

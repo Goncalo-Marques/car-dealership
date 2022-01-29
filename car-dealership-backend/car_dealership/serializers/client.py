@@ -1,3 +1,6 @@
+# Authors: Gonçalo Marques; Ricardo Vieira
+# Latest change: 29/01/2022
+
 from rest_framework import serializers
 from car_dealership.models import Client
 from django.contrib.auth.hashers import make_password

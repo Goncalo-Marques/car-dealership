@@ -1,3 +1,6 @@
+# Authors: Gonçalo Marques; Ricardo Vieira
+# Latest change: 29/01/2022
+
 from django.urls import path
 from car_dealership.views.auth import *
 from car_dealership.views.client import *

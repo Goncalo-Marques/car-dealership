@@ -1,3 +1,6 @@
+# Authors: Gonçalo Marques; Ricardo Vieira
+# Latest change: 29/01/2022
+
 from car_dealership import models
 from car_dealership.serializers.brand import BrandSerializer
 from django.http import Http404

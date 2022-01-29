@@ -1,3 +1,6 @@
+# Authors: Gonçalo Marques; Ricardo Vieira
+# Latest change: 29/01/2022
+
 from django.shortcuts import render
 from .consts import MAX_FEATURED_CARS, TEMPLATE_ERROR, TEMPLATE_INDEX
 from . import helpers
