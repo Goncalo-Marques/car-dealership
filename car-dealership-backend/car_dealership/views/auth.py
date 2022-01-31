@@ -1,5 +1,5 @@
 # Authors: Gonçalo Marques; Ricardo Vieira
-# Latest change: 29/01/2022
+# Latest change: 31/01/2022
 
 from rest_framework import status
 from rest_framework.response import Response
@@ -8,12 +8,19 @@ from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.contrib.auth import authenticate, login, logout
 from car_dealership.serializers.client import ClientSerializer
-
+from drf_yasg.utils import swagger_auto_schema
 
 # view for client login
 class Login(APIView):
     permission_classes = [AllowAny]
 
+    @swagger_auto_schema(
+        responses={
+            "200": "OK",
+            "400": "Bad Request",
+        },
+        operation_description="Logs the client in",
+    )
     def post(self, request, format=None):
         email = request.data.get("email")
         password = request.data.get("password")
@@ -40,6 +47,13 @@ class Login(APIView):
 class Register(APIView):
     permission_classes = [AllowAny]
 
+    @swagger_auto_schema(
+        responses={
+            "201": "Created",
+            "400": "Bad Request",
+        },
+        operation_description="Registers the client",
+    )
     def post(self, request, format=None):
         serializer = ClientSerializer(data=request.data)
 
@@ -73,6 +87,12 @@ class Logout(APIView):
     authentication_classes = [SessionAuthentication]
     permission_classes = [IsAuthenticated]
 
+    @swagger_auto_schema(
+        responses={
+            "200": "OK",
+        },
+        operation_description="Logs the client out",
+    )
     def post(self, request, format=None):
         # logs the client out
         logout(request)

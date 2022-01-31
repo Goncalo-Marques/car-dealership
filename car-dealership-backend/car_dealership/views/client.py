@@ -1,5 +1,5 @@
 # Authors: Gonçalo Marques; Ricardo Vieira
-# Latest change: 29/01/2022
+# Latest change: 31/01/2022
 
 from car_dealership import models
 from car_dealership.serializers.client import ClientSerializer
