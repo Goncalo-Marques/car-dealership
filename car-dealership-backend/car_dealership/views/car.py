@@ -102,7 +102,7 @@ class Cars(APIView):
         responses={
             "200": "OK",
         },
-        operation_description="Gets all cars",
+        operation_description="Get all cars",
     )
     def get(self, request, format=None):
         cars = models.Car.objects.all()
@@ -214,7 +214,7 @@ class CarsNotSold(APIView):
         responses={
             "200": "OK",
         },
-        operation_description="Gets all cars not sold",
+        operation_description="Get all cars not sold",
     )
     def get(self, request, format=None):
         cars = models.Car.objects.filter(id_client=None)
