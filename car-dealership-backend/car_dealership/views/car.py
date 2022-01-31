@@ -10,6 +10,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import AllowAny, IsAuthenticated
+from drf_yasg.utils import swagger_auto_schema
 
 # returns the car object that contains the primary key equal to 'pk' or 404 if it doesn't exist
 def get_object(pk):
@@ -24,6 +25,13 @@ class Car(APIView):
     authentication_classes = [SessionAuthentication]
     permission_classes = [IsAuthenticated]
 
+    @swagger_auto_schema(
+        responses={
+            "201": "Created",
+            "400": "Bad Request",
+        },
+        operation_description="Creates a new car",
+    )
     def post(self, request, format=None):
         serializer = CarSerializer(data=request.data)
         if serializer.is_valid():
@@ -41,11 +49,26 @@ class CarByID(APIView):
     authentication_classes = [SessionAuthentication]
     permission_classes = [IsAuthenticated]
 
+    @swagger_auto_schema(
+        responses={
+            "200": "OK",
+            "404": "Not found",
+        },
+        operation_description="Gets a car by id",
+    )
     def get(self, request, pk, format=None):
         car = get_object(pk)
         serializer = CarSerializer(car)
         return Response(serializer.data)
 
+    @swagger_auto_schema(
+        responses={
+            "200": "OK",
+            "400": "Bad request",
+            "404": "Not found",
+        },
+        operation_description="Updates a car by id",
+    )
     def put(self, request, pk, format=None):
         car = get_object(pk)
         serializer = CarSerializer(car, data=request.data)
@@ -58,6 +81,13 @@ class CarByID(APIView):
         }
         return Response(response, status=status.HTTP_400_BAD_REQUEST)
 
+    @swagger_auto_schema(
+        responses={
+            "204": "No content",
+            "404": "Not found",
+        },
+        operation_description="Deletes a car by id",
+    )
     def delete(self, request, pk, format=None):
         car = get_object(pk)
         car.delete()
@@ -68,6 +98,12 @@ class CarByID(APIView):
 class Cars(APIView):
     permission_classes = [AllowAny]
 
+    @swagger_auto_schema(
+        responses={
+            "200": "OK",
+        },
+        operation_description="Gets all cars",
+    )
     def get(self, request, format=None):
         cars = models.Car.objects.all()
         serializer = CarSerializer(cars, many=True)
@@ -79,6 +115,15 @@ class CarBuy(APIView):
     authentication_classes = [SessionAuthentication]
     permission_classes = [IsAuthenticated]
 
+    @swagger_auto_schema(
+        responses={
+            "200": "OK",
+            "400": "Bad request",
+            "403": "Forbidden",
+            "404": "Not found",
+        },
+        operation_description="Buy a car",
+    )
     def get(self, request, pkCar, pkClient, format=None):
         # validate user authority
         if request.user.id != pkClient:
@@ -109,6 +154,15 @@ class CarSell(APIView):
     authentication_classes = [SessionAuthentication]
     permission_classes = [IsAuthenticated]
 
+    @swagger_auto_schema(
+        responses={
+            "200": "OK",
+            "400": "Bad request",
+            "403": "Forbidden",
+            "404": "Not found",
+        },
+        operation_description="Sell a car",
+    )
     def get(self, request, pk, format=None):
         car = get_object(pk)
 
@@ -140,6 +194,12 @@ class CarsByClient(APIView):
     authentication_classes = [SessionAuthentication]
     permission_classes = [IsAuthenticated]
 
+    @swagger_auto_schema(
+        responses={
+            "200": "OK",
+        },
+        operation_description="Get all cars by client id",
+    )
     def get(self, request, pkClient, format=None):
         cars = models.Car.objects.filter(id_client=pkClient)
         serializer = CarSerializer(cars, many=True)
@@ -150,6 +210,12 @@ class CarsByClient(APIView):
 class CarsNotSold(APIView):
     permission_classes = [AllowAny]
 
+    @swagger_auto_schema(
+        responses={
+            "200": "OK",
+        },
+        operation_description="Gets all cars not sold",
+    )
     def get(self, request, format=None):
         cars = models.Car.objects.filter(id_client=None)
         serializer = CarSerializer(cars, many=True)

@@ -9,6 +9,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
+from drf_yasg.utils import swagger_auto_schema
 
 # returns the client object that contains the primary key equal to 'pk' or 404 if it doesn't exist
 def get_object(pk):
@@ -23,11 +24,27 @@ class ClientByID(APIView):
     authentication_classes = [SessionAuthentication]
     permission_classes = [IsAuthenticated]
 
+    @swagger_auto_schema(
+        responses={
+            "200": "OK",
+            "404": "Not found",
+        },
+        operation_description="Gets a client by id",
+    )
     def get(self, request, pk, format=None):
         client = get_object(pk)
         serializer = ClientSerializer(client)
         return Response(serializer.data)
 
+    @swagger_auto_schema(
+        responses={
+            "200": "OK",
+            "400": "Bad request",
+            "403": "Forbidden",
+            "404": "Not found",
+        },
+        operation_description="Updates a client by id",
+    )
     def put(self, request, pk, format=None):
         # validate user authority
         if request.user.id != pk:
@@ -47,6 +64,13 @@ class ClientByID(APIView):
         }
         return Response(response, status=status.HTTP_400_BAD_REQUEST)
 
+    @swagger_auto_schema(
+        responses={
+            "204": "No content",
+            "404": "Not found",
+        },
+        operation_description="Deletes a client by id",
+    )
     def delete(self, request, pk, format=None):
         client = get_object(pk)
         client.delete()
@@ -58,6 +82,12 @@ class Clients(APIView):
     authentication_classes = [SessionAuthentication]
     permission_classes = [IsAuthenticated]
 
+    @swagger_auto_schema(
+        responses={
+            "200": "OK",
+        },
+        operation_description="Get all clients",
+    )
     def get(self, request, format=None):
         clients = models.Client.objects.all()
         serializer = ClientSerializer(clients, many=True)
