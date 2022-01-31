@@ -1,5 +1,5 @@
 # Authors: Gonçalo Marques; Ricardo Vieira
-# Latest change: 29/01/2022
+# Latest change: 31/01/2022
 
 """
 Django settings for car_dealership_backend project.
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "drf_yasg",
     "car_dealership",
 ]
 
