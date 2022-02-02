@@ -75,7 +75,9 @@ def account(request):
             return render(request, TEMPLATE_ERROR, response.json())
 
         redirect = HttpResponseRedirect(reverse(URL_INDEX))
-        redirect.set_cookie("client", response.json())
+        if response.cookies.get("sessionid") != None:
+            redirect.set_cookie("sessionid", response.cookies.get("sessionid"))
+            redirect.set_cookie("client", response.json())
 
         return redirect
 

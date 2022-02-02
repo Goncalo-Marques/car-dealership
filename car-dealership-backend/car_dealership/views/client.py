@@ -7,6 +7,7 @@ from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from django.contrib.auth import authenticate, login
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
 from drf_yasg.utils import swagger_auto_schema
@@ -65,6 +66,15 @@ class ClientByID(APIView):
         serializer = ClientSerializer(client, data=request.data)
         if serializer.is_valid():
             serializer.save()
+
+            # updates the client login if password changed
+            password = request.data.get("password", None)
+            if password != None:
+                auth = authenticate(
+                    request, email=serializer.data.get("email", None), password=password
+                )
+                login(request, auth)
+
             return Response(serializer.data)
 
         response = {
