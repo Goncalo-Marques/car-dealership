@@ -1,5 +1,5 @@
 # Authors: Gonçalo Marques; Ricardo Vieira
-# Latest change: 31/01/2022
+# Latest change: 02/02/2022
 
 from car_dealership import models
 from car_dealership.serializers.car import CarSerializer
@@ -11,6 +11,7 @@ from rest_framework import status
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 
 # returns the car object that contains the primary key equal to 'pk' or 404 if it doesn't exist
 def get_object(pk):
@@ -26,11 +27,15 @@ class Car(APIView):
     permission_classes = [IsAuthenticated]
 
     @swagger_auto_schema(
+        operation_description="Creates a new car",
+        request_body=CarSerializer(),
         responses={
-            "201": "Created",
+            "201": openapi.Response(
+                description="Created",
+                schema=CarSerializer(),
+            ),
             "400": "Bad Request",
         },
-        operation_description="Creates a new car",
     )
     def post(self, request, format=None):
         serializer = CarSerializer(data=request.data)
@@ -50,11 +55,14 @@ class CarByID(APIView):
     permission_classes = [IsAuthenticated]
 
     @swagger_auto_schema(
+        operation_description="Gets a car by id",
         responses={
-            "200": "OK",
+            "200": openapi.Response(
+                description="OK",
+                schema=CarSerializer(),
+            ),
             "404": "Not found",
         },
-        operation_description="Gets a car by id",
     )
     def get(self, request, pk, format=None):
         car = get_object(pk)
@@ -62,12 +70,16 @@ class CarByID(APIView):
         return Response(serializer.data)
 
     @swagger_auto_schema(
+        operation_description="Updates a car by id",
+        request_body=CarSerializer(),
         responses={
-            "200": "OK",
+            "200": openapi.Response(
+                description="OK",
+                schema=CarSerializer(),
+            ),
             "400": "Bad request",
             "404": "Not found",
         },
-        operation_description="Updates a car by id",
     )
     def put(self, request, pk, format=None):
         car = get_object(pk)
@@ -82,11 +94,11 @@ class CarByID(APIView):
         return Response(response, status=status.HTTP_400_BAD_REQUEST)
 
     @swagger_auto_schema(
+        operation_description="Deletes a car by id",
         responses={
             "204": "No content",
             "404": "Not found",
         },
-        operation_description="Deletes a car by id",
     )
     def delete(self, request, pk, format=None):
         car = get_object(pk)
@@ -99,10 +111,13 @@ class Cars(APIView):
     permission_classes = [AllowAny]
 
     @swagger_auto_schema(
-        responses={
-            "200": "OK",
-        },
         operation_description="Get all cars",
+        responses={
+            "200": openapi.Response(
+                description="OK",
+                schema=CarSerializer(many=True),
+            ),
+        },
     )
     def get(self, request, format=None):
         cars = models.Car.objects.all()
@@ -116,13 +131,17 @@ class CarBuy(APIView):
     permission_classes = [IsAuthenticated]
 
     @swagger_auto_schema(
+        operation_summary="carBuy",
+        operation_description="Buy a car",
         responses={
-            "200": "OK",
+            "200": openapi.Response(
+                description="OK",
+                schema=CarSerializer(),
+            ),
             "400": "Bad request",
             "403": "Forbidden",
             "404": "Not found",
         },
-        operation_description="Buy a car",
     )
     def get(self, request, pkCar, pkClient, format=None):
         # validate user authority
@@ -155,13 +174,17 @@ class CarSell(APIView):
     permission_classes = [IsAuthenticated]
 
     @swagger_auto_schema(
+        operation_summary="carSell",
+        operation_description="Sell a car",
         responses={
-            "200": "OK",
+            "200": openapi.Response(
+                description="OK",
+                schema=CarSerializer(),
+            ),
             "400": "Bad request",
             "403": "Forbidden",
             "404": "Not found",
         },
-        operation_description="Sell a car",
     )
     def get(self, request, pk, format=None):
         car = get_object(pk)
@@ -195,10 +218,14 @@ class CarsByClient(APIView):
     permission_classes = [IsAuthenticated]
 
     @swagger_auto_schema(
-        responses={
-            "200": "OK",
-        },
+        operation_summary="carsByClient_list",
         operation_description="Get all cars by client id",
+        responses={
+            "200": openapi.Response(
+                description="OK",
+                schema=CarSerializer(many=True),
+            ),
+        },
     )
     def get(self, request, pkClient, format=None):
         cars = models.Car.objects.filter(id_client=pkClient)
@@ -211,10 +238,13 @@ class CarsNotSold(APIView):
     permission_classes = [AllowAny]
 
     @swagger_auto_schema(
-        responses={
-            "200": "OK",
-        },
         operation_description="Get all cars not sold",
+        responses={
+            "200": openapi.Response(
+                description="OK",
+                schema=CarSerializer(many=True),
+            ),
+        },
     )
     def get(self, request, format=None):
         cars = models.Car.objects.filter(id_client=None)
