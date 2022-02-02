@@ -69,5 +69,6 @@ CREATE DATABASE car_dealership OWNER your_owner;
 ## Servers
 
 Backend: [http://127.0.0.1:8000/](http://127.0.0.1:8000/)  
+API Docs: [http://127.0.0.1:8000/](http://127.0.0.1:8000/docs/)  
 Backoffice: [http://127.0.0.1:8000/admin](http://127.0.0.1:8000/admin)  
 Frontend: [http://127.0.0.1:8001/](http://127.0.0.1:8001/)  
