@@ -1,5 +1,5 @@
 # Authors: Gonçalo Marques; Ricardo Vieira
-# Latest change: 31/01/2022
+# Latest change: 02/02/2022
 
 from car_dealership import models
 from car_dealership.serializers.brand import BrandSerializer
@@ -25,11 +25,12 @@ class Brand(APIView):
     permission_classes = [IsAuthenticated]
 
     @swagger_auto_schema(
+        operation_description="Creates a new brand",
+        request_body=BrandSerializer(),
         responses={
             "201": "Created",
             "400": "Bad Request",
         },
-        operation_description="Creates a new brand",
     )
     def post(self, request, format=None):
         serializer = BrandSerializer(data=request.data)
@@ -49,11 +50,11 @@ class BrandByName(APIView):
     permission_classes = [IsAuthenticated]
 
     @swagger_auto_schema(
+        operation_description="Deletes a brand",
         responses={
             "204": "No content",
             "404": "Not found",
         },
-        operation_description="Deletes a brand",
     )
     def delete(self, request, pk, format=None):
         brand = get_object(pk)
@@ -66,10 +67,10 @@ class Brands(APIView):
     permission_classes = [AllowAny]
 
     @swagger_auto_schema(
-        responses={
-            "200": "OK",
-        },
         operation_description="Get all brands",
+        responses={
+            "200": BrandSerializer(many=True),
+        },
     )
     def get(self, request, format=None):
         brands = models.Brand.objects.all()
