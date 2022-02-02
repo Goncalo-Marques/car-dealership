@@ -1,5 +1,5 @@
 # Authors: Gonçalo Marques; Ricardo Vieira
-# Latest change: 31/01/2022
+# Latest change: 02/02/2022
 
 from rest_framework import status
 from rest_framework.response import Response
@@ -15,11 +15,12 @@ class Login(APIView):
     permission_classes = [AllowAny]
 
     @swagger_auto_schema(
+        operation_summary="login",
+        operation_description="Logs the client in",
         responses={
             "200": "OK",
             "400": "Bad Request",
         },
-        operation_description="Logs the client in",
     )
     def post(self, request, format=None):
         email = request.data.get("email")
@@ -48,11 +49,13 @@ class Register(APIView):
     permission_classes = [AllowAny]
 
     @swagger_auto_schema(
+        operation_summary="register",
+        operation_description="Registers the client",
+        request_body=ClientSerializer(),
         responses={
             "201": "Created",
             "400": "Bad Request",
         },
-        operation_description="Registers the client",
     )
     def post(self, request, format=None):
         serializer = ClientSerializer(data=request.data)
@@ -88,10 +91,11 @@ class Logout(APIView):
     permission_classes = [IsAuthenticated]
 
     @swagger_auto_schema(
+        operation_summary="logout",
+        operation_description="Logs the client out",
         responses={
             "200": "OK",
         },
-        operation_description="Logs the client out",
     )
     def post(self, request, format=None):
         # logs the client out
