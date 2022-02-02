@@ -10,6 +10,7 @@ from rest_framework import status
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 
 # returns the brand object that contains the primary key equal to 'pk' or 404 if it doesn't exist
 def get_object(pk):
@@ -28,7 +29,10 @@ class Brand(APIView):
         operation_description="Creates a new brand",
         request_body=BrandSerializer(),
         responses={
-            "201": "Created",
+            "201": openapi.Response(
+                description="Created",
+                schema=BrandSerializer(),
+            ),
             "400": "Bad Request",
         },
     )
@@ -69,7 +73,10 @@ class Brands(APIView):
     @swagger_auto_schema(
         operation_description="Get all brands",
         responses={
-            "200": BrandSerializer(many=True),
+            "200": openapi.Response(
+                description="OK",
+                schema=BrandSerializer(many=True),
+            ),
         },
     )
     def get(self, request, format=None):
